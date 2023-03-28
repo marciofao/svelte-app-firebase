@@ -1,5 +1,7 @@
 <script>
   export let name;
+  export let signUpMessage;
+  export let loginMessage;
 </script>
 
 <main>
@@ -9,6 +11,11 @@
     <label for="password">Password:</label>
     <input type="password" name="password" />
     <button>Signup</button>
+    <div class="message">
+      {#if signUpMessage}
+        {signUpMessage}
+      {/if}
+    </div>
   </form>
   <h2>Login</h2>
   <form class="login">

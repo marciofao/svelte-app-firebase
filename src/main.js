@@ -1,12 +1,16 @@
 import App from './App.svelte';
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getAAuth, createUserWithEmailAndPassword } from "firebase/auth"
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth"
 
+let signUpMessage = '';
+let loginMessage = '';
 const app = new App({
 	target: document.body,
 	props: {
-		name: 'this'
+		name: 'this',
+		signUpMessage: signUpMessage,
+		loginMessage: loginMessage
 	}
 });
 
@@ -25,5 +29,27 @@ const firebaseConfig = {
 
 // Initialize Firebase
 initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+//const analytics = getAnalytics(app);
 const auth = getAuth();
+
+//signup form
+
+const usignUp = document.querySelector('.signup')
+usignUp.addEventListener('submit', (e) => {
+
+	e.preventDefault()
+
+	const email = usignUp.email.value
+	const pass = usignUp.password.value
+
+	createUserWithEmailAndPassword(auth, email, pass)
+		.then((cred) => {
+			signUpMessage = "this user has been created:" + cred.user
+			console.log(signUpMessage)
+			usignUp.reset()
+		})
+		.catch((err) => {
+			signUpMessage = err.message
+			console.log(signUpMessage)
+		})
+})
