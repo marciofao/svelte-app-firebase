@@ -1,7 +1,12 @@
 import App from './App.svelte';
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth"
+import {
+	getAuth,
+	createUserWithEmailAndPassword,
+	signOut,
+	signInWithEmailAndPassword
+} from "firebase/auth"
 
 let signUpMessage = '';
 let loginMessage = '';
@@ -44,8 +49,7 @@ usignUp.addEventListener('submit', (e) => {
 
 	createUserWithEmailAndPassword(auth, email, pass)
 		.then((cred) => {
-			signUpMessage = "this user has been created:" + cred.user
-			console.log(signUpMessage)
+			console.log("this user has been created:", cred.user)
 			usignUp.reset()
 		})
 		.catch((err) => {
