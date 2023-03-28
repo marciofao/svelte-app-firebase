@@ -57,3 +57,33 @@ usignUp.addEventListener('submit', (e) => {
 			console.log(signUpMessage)
 		})
 })
+
+
+//login and logout function
+const ulogout = document.querySelector('.logout')
+ulogout.addEventListener('click', () => {
+	signOut(auth)
+		.then(() => {
+			console.log("thank you for using our service today")
+		})
+		.catch((err) => {
+			console.log(err.message)
+		})
+})
+
+const ulogin = document.querySelector('.login')
+ulogin.addEventListener('submit', (e) => {
+	e.preventDefault()
+
+	const umail = ulogin.email.value
+	const upass = ulogin.password.value
+
+	signInWithEmailAndPassword(auth, umail, upass)
+		.then((cred) => {
+			console.log("this user has been Logged in:", cred.user)
+		})
+		.catch((err) => {
+			console.log(err.message)
+		});
+
+})
