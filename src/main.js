@@ -1,12 +1,16 @@
 import App from './App.svelte';
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
 import {
 	getAuth,
 	createUserWithEmailAndPassword,
 	signOut,
 	signInWithEmailAndPassword
 } from "firebase/auth"
+import {
+	getFirestore,
+	collection,
+	getDocs
+} from 'firebase/firestore'
 
 let signUpMessage = '';
 let loginMessage = '';
@@ -34,11 +38,28 @@ const firebaseConfig = {
 
 // Initialize Firebase
 initializeApp(firebaseConfig);
-//const analytics = getAnalytics(app);
+
+const db = getFirestore()
+const colRef = collection(db, 'cars')
+
+getDocs(colRef) //get collection referencec
+	.then((snapshot) => {
+		let cars = []
+		snapshot.docs.forEach((doc) => {
+			cars.push({ ...doc.data(), id: doc.id })
+		})
+		console.log(cars)
+	})
+	.catch(err => {
+		console.log(err.message)
+	})
+
+
+
+
 const auth = getAuth();
 
 //signup form
-
 const usignUp = document.querySelector('.signup')
 usignUp.addEventListener('submit', (e) => {
 
